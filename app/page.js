@@ -1,19 +1,18 @@
 import Link from "next/link";
+import pool from "../lib/db";
+
+export const dynamic = "force-dynamic";
 
 async function getPosts() {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/api/posts`,
-      {
-        cache: "no-store",
-      }
+    const result = await pool.query(
+      `SELECT *
+       FROM posts
+       WHERE published = true
+       ORDER BY created_at DESC`
     );
 
-    if (!response.ok) {
-      return [];
-    }
-
-    return await response.json();
+    return result.rows;
   } catch (error) {
     console.error("Failed to fetch posts:", error);
     return [];
@@ -84,11 +83,12 @@ export default async function Home() {
                 key={post.id}
                 className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition bg-white"
               >
+                {/* Cover Image */}
                 {post.cover_image && (
                   <div className="relative">
                     <img
                       src={post.cover_image}
-                      alt={post.title}
+                      alt={post.title || "Blog post"}
                       className="w-full h-40 object-cover"
                     />
 
@@ -104,13 +104,14 @@ export default async function Home() {
                   </div>
                 )}
 
+                {/* Content */}
                 <div className="p-4">
                   <p className="text-xs text-blue-600 font-medium">
                     {post.category || "General"}
                   </p>
 
                   <h3 className="text-lg font-bold mt-1 line-clamp-2">
-                    {post.title}
+                    {post.title || "Untitled Post"}
                   </h3>
 
                   <p className="text-gray-600 text-sm mt-2 line-clamp-2">
