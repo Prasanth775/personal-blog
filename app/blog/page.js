@@ -23,10 +23,11 @@ export default async function BlogPage() {
   const posts = await getPosts();
 
   return (
-    <main className="max-w-6xl mx-auto px-6 py-8">
+    <main className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
 
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">
+      {/* Header */}
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold">
           All Content
         </h1>
 
@@ -35,6 +36,7 @@ export default async function BlogPage() {
         </p>
       </div>
 
+      {/* No Posts */}
       {posts.length === 0 ? (
 
         <div className="text-center py-12">
@@ -45,24 +47,27 @@ export default async function BlogPage() {
 
       ) : (
 
-        <div className="grid md:grid-cols-3 gap-6">
+        /* Posts */
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6">
 
           {posts.map((post) => (
 
             <article
               key={post.id}
-              className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition bg-white"
+              className="w-full border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition bg-white"
             >
 
+              {/* Cover Image */}
               {post.cover_image && (
                 <div className="relative">
 
                   <img
                     src={post.cover_image}
                     alt={post.title || "Blog post"}
-                    className="w-full h-40 object-cover"
+                    className="w-full h-40 sm:h-44 object-cover"
                   />
 
+                  {/* Badge */}
                   {post.content_type === "video" ? (
 
                     <span className="absolute top-2 left-2 bg-red-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
@@ -80,20 +85,25 @@ export default async function BlogPage() {
                 </div>
               )}
 
+              {/* Content */}
               <div className="p-4">
 
+                {/* Category */}
                 <p className="text-xs text-blue-600 font-medium">
                   {post.category || "General"}
                 </p>
 
-                <h2 className="text-lg font-bold mt-1 line-clamp-2">
+                {/* Title */}
+                <h2 className="text-lg font-bold mt-1 line-clamp-2 break-words">
                   {post.title || "Untitled Post"}
                 </h2>
 
-                <p className="text-gray-600 text-sm mt-2 line-clamp-2">
+                {/* Excerpt */}
+                <p className="text-gray-600 text-sm mt-2 line-clamp-2 break-words">
                   {post.excerpt || "No description available."}
                 </p>
 
+                {/* Button */}
                 <Link
                   href={`/blog/${post.slug}`}
                   className={

@@ -95,60 +95,69 @@ export default async function BlogPost({ params }) {
       : null;
 
   return (
-    <main className="max-w-4xl mx-auto px-6 py-12">
+    <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
 
-      {/* Content Type */}
-      <div className="mb-5">
+      {/* ================= CONTENT TYPE ================= */}
+      <div className="mb-4 sm:mb-5">
+
         {post.content_type === "video" ? (
-          <span className="bg-red-100 text-red-600 px-4 py-2 rounded-full font-semibold">
+          <span className="inline-block bg-red-100 text-red-600 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold">
             🎥 VIDEO
           </span>
         ) : (
-          <span className="bg-blue-100 text-blue-600 px-4 py-2 rounded-full font-semibold">
+          <span className="inline-block bg-blue-100 text-blue-600 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold">
             📝 ARTICLE
           </span>
         )}
+
       </div>
 
-      {/* Cover Image */}
+
+      {/* ================= COVER IMAGE ================= */}
       {post.cover_image && (
-        <img
-          src={post.cover_image}
-          alt={post.title || "Blog post"}
-          className="w-full h-96 object-cover rounded-xl"
-        />
+        <div className="w-full overflow-hidden rounded-lg sm:rounded-xl">
+
+          <img
+            src={post.cover_image}
+            alt={post.title || "Blog post"}
+            className="w-full h-48 sm:h-64 md:h-80 lg:h-96 object-cover"
+          />
+
+        </div>
       )}
 
-      {/* Title */}
-      <div className="mt-8">
 
-        <p className="text-blue-600 font-medium">
+      {/* ================= TITLE ================= */}
+      <div className="mt-6 sm:mt-8">
+
+        <p className="text-blue-600 text-sm sm:text-base font-medium">
           {post.category || "General"}
         </p>
 
-        <h1 className="text-4xl md:text-5xl font-bold mt-3">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mt-2 sm:mt-3 leading-tight break-words">
           {post.title}
         </h1>
 
-        <p className="text-gray-500 mt-4">
+        <p className="text-gray-500 text-sm sm:text-base mt-3 sm:mt-4">
           By {post.author || "Admin"}
         </p>
 
       </div>
 
-      {/* VIDEO CONTENT */}
+
+      {/* ================= VIDEO CONTENT ================= */}
       {post.content_type === "video" ? (
 
-        <section className="mt-10">
+        <section className="mt-7 sm:mt-10">
 
           {youtubeEmbedUrl ? (
 
-            <div className="aspect-video w-full">
+            <div className="w-full aspect-video overflow-hidden rounded-lg sm:rounded-xl">
 
               <iframe
                 src={youtubeEmbedUrl}
                 title={post.title}
-                className="w-full h-full rounded-xl"
+                className="w-full h-full border-0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
               />
@@ -157,9 +166,9 @@ export default async function BlogPost({ params }) {
 
           ) : (
 
-            <div className="bg-gray-100 rounded-xl p-10 text-center">
+            <div className="bg-gray-100 rounded-lg sm:rounded-xl p-6 sm:p-10 text-center">
 
-              <p className="text-gray-500">
+              <p className="text-gray-500 text-sm sm:text-base">
                 Video URL is invalid or not available.
               </p>
 
@@ -167,9 +176,10 @@ export default async function BlogPost({ params }) {
 
           )}
 
+
           {/* Video Description */}
           {post.excerpt && (
-            <p className="text-gray-600 text-lg mt-8">
+            <p className="text-gray-600 text-base sm:text-lg mt-6 sm:mt-8 leading-7">
               {post.excerpt}
             </p>
           )}
@@ -178,9 +188,20 @@ export default async function BlogPost({ params }) {
 
       ) : (
 
-        /* ARTICLE CONTENT */
+        /* ================= ARTICLE CONTENT ================= */
 
-        <article className="prose prose-lg max-w-none mt-10">
+        <article
+          className="
+            prose
+            prose-base
+            sm:prose-lg
+            max-w-none
+            mt-7
+            sm:mt-10
+            break-words
+            overflow-hidden
+          "
+        >
 
           <ReactMarkdown>
             {post.content || ""}
